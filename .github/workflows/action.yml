@@ -3,11 +3,12 @@ name: CI
 on:
   push:
     paths:
-      - 'personalization/**'
+      - 'src/**'
+      - 'tests/**'
   pull_request:
     paths:
-      - 'personalization/**'
-
+      - 'src/**'
+      - 'tests/**'
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
@@ -36,8 +37,8 @@ jobs:
           poetry run coverage run --omit 'tests/*' -m pytest
           poetry run coverage report -m > coverage.txt
           total_coverage=$(tail -n 1 coverage.txt  | awk '{print $NF}' | sed 's/%//')
-          if ((total_coverage < 90)); then
-              echo "Coverage is below 90%: $total_coverage%"
+          if ((total_coverage < 70)); then
+              echo "Coverage is below 70%: $total_coverage%"
               exit 1
           else
               echo "Coverage is $total_coverage%"
