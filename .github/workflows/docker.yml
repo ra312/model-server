@@ -13,4 +13,4 @@ jobs:
         run: docker build -t my-fastapi-app .
 
       - name: Test Docker image
-        run: scripts/test_docker_image
+        run: scripts/test_docker_image.sh
