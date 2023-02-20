@@ -3,11 +3,12 @@ name: CI
 on:
   push:
     paths:
-      - 'personalization/**'
+      - 'src/**'
+      - 'tests/**'
   pull_request:
     paths:
-      - 'personalization/**'
-
+      - 'src/**'
+      - 'tests/**'
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
