@@ -14,3 +14,13 @@ jobs:
 
       - name: Test Docker image
         run: scripts/test_docker_image.sh
+
+      - name: Publish Docker image to Docker Hub
+        if: ${{ job.status == 'success' }}
+        env:
+          DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_NAME }}
+          DOCKER_USER_PASSWORD: ${{ secrets.DOCKER_USER_PASSWORD }}
+        run: |
+          docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
+          docker tag my-fastapi-app $DOCKER_USER_NAME/my-fastapi-app
+          docker push $DOCKER_USER_NAME/my-fastapi-app
