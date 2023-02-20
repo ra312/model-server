@@ -1,0 +1,16 @@
+name: Test Docker Image
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t my-fastapi-app .
+
+      - name: Test Docker image
+        run: scripts/test_docker_image
