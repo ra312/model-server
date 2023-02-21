@@ -16,7 +16,6 @@ class RankingInferenceServer:
         )
 
         @self.app.post("/predict")
-        # trunk-ignore(mypy/no-untyped-def)
         async def predict(self, incoming_inference_features: str) -> str:  # type: ignore
             return str(
                 self.ranking_model.generate_model_ratings(
