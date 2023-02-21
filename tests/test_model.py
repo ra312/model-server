@@ -29,15 +29,11 @@ def test_model_prediction_routine() -> None:
     ).replace(
         " ", ""
     )
-    expected_response = """[
-        {"venue_id":-8608196287932575311,"q80_predicted_rank":1.0},
-        {"venue_id":-4202398962129790175,"q80_predicted_rank":1.0},
-        {"venue_id":8968794542286256815,"q80_predicted_rank":1.0}
-    ]""".replace(
-        "\n", ""
-    ).replace(
-        " ", ""
-    )
     test_inference_dataframe = pl.DataFrame(json.loads(test_incoming_inference_features))
+    expected_response = [
+        {"venue_id": -8608196287932575311, "q80_predicted_rank": 1.0},
+        {"venue_id": -4202398962129790175, "q80_predicted_rank": 1.0},
+        {"venue_id": 8968794542286256815, "q80_predicted_rank": 1.0},
+    ]
     generated_response = model.generate_model_ratings(inference_dataframe=test_inference_dataframe)
     assert generated_response == expected_response
