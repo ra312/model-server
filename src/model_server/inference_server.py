@@ -3,7 +3,6 @@ from typing import List
 import polars as pl
 import uvicorn
 from fastapi import FastAPI
-from pydantic.errors import PydanticValueError
 
 from .features import InferenceFeatures
 from .model import ModelInstance
@@ -25,13 +24,10 @@ def model_endpoint() -> None:
         venues_to_be_shown: List[InferenceFeatures],
     ) -> List[VenueRating]:
 
-        requests = [request.dict() for request in venues_to_be_shown] * 10
+        requests = [request.dict() for request in venues_to_be_shown]
         inference_dataframe = pl.DataFrame(requests)
         responses = model_instance.generate_model_ratings(inference_dataframe)
-        try:
-            venues_ratings = [VenueRating(**response) for response in responses]
-        except PydanticValueError as data_validation_error:
-            print(f"Failed to generate response with pydantic {data_validation_error}")
+        venues_ratings = [VenueRating(**response) for response in responses]
         return venues_ratings
 
     host = "0.0.0.0"
