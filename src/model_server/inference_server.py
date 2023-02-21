@@ -14,7 +14,7 @@ def model_endpoint() -> None:
     app = FastAPI()
 
     model_instance = ModelInstance(
-        model_artifact_bucket="/workspaces/model-server/rate_venues.pickle",
+        model_artifact_bucket="../artifacts/rate_venues.pickle",
         group_column="session_id",
         rank_column="rating",
     )
