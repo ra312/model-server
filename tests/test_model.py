@@ -1,3 +1,7 @@
+import json
+
+import polars as pl
+
 from model_server.model import ModelInstance
 
 
@@ -34,7 +38,6 @@ def test_model_prediction_routine() -> None:
     ).replace(
         " ", ""
     )
-    generated_response = model.generate_model_ratings(
-        incoming_inference_features_str=test_incoming_inference_features
-    )
+    test_inference_dataframe = pl.DataFrame(json.loads(test_incoming_inference_features))
+    generated_response = model.generate_model_ratings(inference_dataframe=test_inference_dataframe)
     assert generated_response == expected_response

@@ -1,7 +1,6 @@
-import json
+from typing import Any, Dict, List
 
 import joblib
-import lightgbm as lgb
 import polars as pl
 
 
@@ -10,15 +9,13 @@ class ModelInstance:
         # TODO: add reading from gcs
         # EXPLAIN: for demo, we read locally
 
-        # Load the model from the pickled file
-        self.model: lgb.Booster = joblib.load(model_artifact_bucket)  # type: ignore[no-any-unimported]
+        self.model: Any = joblib.load(model_artifact_bucket)
         self.group_column = f"{group_column}_hashed"
         self.rank_column = rank_column
 
-    from typing import Any
-
-    def generate_model_ratings(self, incoming_inference_features_str: str) -> str:
-        inference_dataframe = pl.DataFrame(json.loads(incoming_inference_features_str))
+    def generate_model_ratings(self, inference_dataframe: pl.DataFrame) -> List[Dict[str, Any]]:
+        # inference_dataframe = pl.DataFrame(
+        #     json.loads(incoming_inference_features_str))
         # hashed_session_column = f"{self.group_column}_hashed"
         # if 'session_id' not in inference_dataframe.columns:
         #     raise RuntimeWarning(
@@ -48,7 +45,7 @@ class ModelInstance:
             group_column
         )[pred_label].rank(method="first", ascending=False)
         predictions_pl = pl.DataFrame(inference_dataframe_pd)
-        return str(
+        ratings: List[Dict[str, Any]] = (
             predictions_pl.groupby("venue_id")
             .agg(
                 [pl.col(predicted_rank_column).quantile(0.8).alias(f"q80_{predicted_rank_column}")]
@@ -56,5 +53,7 @@ class ModelInstance:
             .select("venue_id", f"q80_{predicted_rank_column}")
             .sort("venue_id")
             .to_pandas()
-            .to_json(orient="records")
+            .to_dict(orient="records")
         )
+        print(f" Returning ratings={ratings}")
+        return ratings

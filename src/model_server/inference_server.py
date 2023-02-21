@@ -1,24 +1,39 @@
+from typing import List
+
+import polars as pl
+import uvicorn
 from fastapi import FastAPI
+from pydantic.errors import PydanticValueError
 
+from .features import InferenceFeatures
 from .model import ModelInstance
+from .ratings import VenueRating
 
 
-class RankingInferenceServer:
-    def __init__(
-        self, model_name: str, model_artifact_bucket: str, group_column: str, rank_column: str
-    ):
-        self.ranking_model_name = model_name
-        self.app = FastAPI()
-        self.ranking_model = ModelInstance(
-            model_artifact_bucket=model_artifact_bucket,
-            group_column=group_column,
-            rank_column=rank_column,
-        )
+def model_endpoint() -> None:
 
-        @self.app.post("/predict")
-        async def predict(self, incoming_inference_features: str) -> str:  # type: ignore
-            return str(
-                self.ranking_model.generate_model_ratings(
-                    incoming_inference_features_str=incoming_inference_features
-                )
-            )
+    app = FastAPI()
+
+    model_instance = ModelInstance(
+        model_artifact_bucket="/workspaces/model-server/rate_venues.pickle",
+        group_column="session_id",
+        rank_column="rating",
+    )
+
+    @app.post("/predict", response_model=List[VenueRating])
+    async def predict_venues_ratings(
+        venues_to_be_shown: List[InferenceFeatures],
+    ) -> List[VenueRating]:
+
+        requests = [request.dict() for request in venues_to_be_shown] * 10
+        inference_dataframe = pl.DataFrame(requests)
+        responses = model_instance.generate_model_ratings(inference_dataframe)
+        try:
+            venues_ratings = [VenueRating(**response) for response in responses]
+        except PydanticValueError as data_validation_error:
+            print(f"Failed to generate response with pydantic {data_validation_error}")
+        return venues_ratings
+
+    host = "0.0.0.0"
+    port = "8080"
+    uvicorn.run(app, host=host, port=int(port))
