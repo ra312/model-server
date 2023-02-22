@@ -8,8 +8,24 @@ from .model import ModelInstance
 from .ratings import VenueRating
 
 
-def model_endpoint(host: str, port: int, recommendation_model_path: str) -> FastAPI:
+def model_endpoint(recommendation_model_path: str) -> FastAPI:
+    """
+    Creates a FastAPI app that serves a machine learning model for making venue recommendations.
 
+    Args:
+        recommendation_model_path (str): Path to the saved machine learning model.
+
+    Returns:
+        FastAPI: A FastAPI app that serves the machine learning model.
+
+    Raises:
+        Any exceptions raised by the ModelInstance constructor.
+
+    Example:
+        >>> app = model_endpoint("path/to/recommendation/model")
+        >>> uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    """
     app = FastAPI()
 
     model_instance = ModelInstance(
