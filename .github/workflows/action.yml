@@ -53,6 +53,8 @@ jobs:
         env:
           TWINE_USERNAME: ${{ env.PYPI_USER_NAME }}
           TWINE_PASSWORD: ${{ env.PYPI_USER_PASSWORD }}
+          TWINE_NON_INTERACTIVE: 0
         run: |
+          rm -rf dist
           poetry build -f wheel
           poetry run twine upload dist/*

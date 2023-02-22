@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "model-server"
+name = "recommendation-model-server"
 version = "0.0.1"
 description = "A real-time inference server"
 authors = ["Rauan Akylzhanov <akylzhanov.r@gmail.com>"]
@@ -26,6 +26,7 @@ fastapi-utils = "^0.2.1"
 joblib = "^1.2.0"
 lightgbm = "^3.3.5"
 types-requests = "^2.28.11.14"
+twine = "^4.0.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -44,6 +45,13 @@ cruft = ">=2.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^4.0.0"
+
+
+[[tool.poetry.source]]
+name = "ra312"
+url = "https://pypi.org/ra312"
+default = false
+secondary = false
 
 [build-system]
 requires = ["poetry>=0.12"]
