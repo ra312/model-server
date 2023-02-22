@@ -2,13 +2,15 @@ name: CI
 
 on:
   push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
+    branches:
+      - main
+      - "model_server/**"
+      - "tests/**"
   pull_request:
-    paths:
-      - 'src/**'
-      - 'tests/**'
+    branches:
+      - main
+      - "model_server/**"
+      - "tests/**"
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
