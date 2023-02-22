@@ -16,4 +16,7 @@ RUN apt-get update && \
 EXPOSE 8000
 
 # Start the FastAPI application using Uvicorn server
-CMD ["poetry", "run", "uvicorn", "src/model_server/server.py:InferenceServer.app", "--host", "0.0.0.0", "--port", "8000"]
+
+ENTRYPOINT [ "poetry", "run", "python", "-m", \
+    "model_server", "--host", "0.0.0.0", "--port", "8000", \
+    "--recommendation-model-path", "/app/artifacts/rate_venues.pickle"]
