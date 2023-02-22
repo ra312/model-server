@@ -23,7 +23,7 @@ from .server import InferenceServer
 
 __version__ = "0.1.0"
 __author__ = "Rauan Akylzhanov"
-__description__ = "Model for rating venues"
+__description__ = "An online inference endpoint prototype to serve incoming requests to rate venues"
 __release_date__ = "2022, February 22"
 __features__ = "get from model"
 __all__: List[str] = ["InferenceServer"]
