@@ -28,11 +28,7 @@ def model_endpoint(recommendation_model_path: str) -> FastAPI:
     """
     app = FastAPI()
 
-    model_instance = ModelInstance(
-        model_artifact_bucket=recommendation_model_path,
-        group_column="session_id",
-        rank_column="rating",
-    )
+    model_instance = ModelInstance(model_artifact_bucket=recommendation_model_path)
 
     @app.post("/predict", response_model=List[VenueRating])
     async def predict_venues_ratings(
