@@ -12,6 +12,8 @@ on:
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
+  PYPI_USER_NAME: ${{ secrets.PYPI_USER_NAME }}
+  PYPI_USER_PASSWORD: ${{ secrets.PYPI_USER_PASSWORD }}
 
 jobs:
   install-deps-and-test:
@@ -43,3 +45,12 @@ jobs:
           else
               echo "Coverage is $total_coverage%"
           fi
+
+      - name: Publish to PyPI
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          TWINE_USERNAME: ${{ env.PYPI_USER_NAME }}
+          TWINE_PASSWORD: ${{ env.PYPI_USER_PASSWORD }}
+        run: |
+          poetry build -f wheel
+          poetry run twine upload dist/*
