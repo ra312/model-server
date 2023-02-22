@@ -1,7 +1,7 @@
 # import json
 from fastapi.testclient import TestClient
 
-from model_server import InferenceServer
+from recommendation_model_server.server import InferenceServer
 
 
 def test_predict_endpoint() -> None:
