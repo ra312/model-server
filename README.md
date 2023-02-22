@@ -77,7 +77,7 @@ A model server  for almost realtime inference
 ## Installation
 
 ```sh
-pip install model-server
+pip install recommendation-model-server
 ```
 
 ## Development
