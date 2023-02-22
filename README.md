@@ -85,7 +85,7 @@ pip install model-server
 * Clone this repository
 * Requirements:
   * [Poetry](https://python-poetry.org/)
-  * Python 3.7+
+  * Python 3.8.1+
 * Create a virtual environment and install the dependencies
 
 ```sh

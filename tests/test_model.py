@@ -2,7 +2,7 @@ import json
 
 import polars as pl
 
-from model_server.model import ModelInstance
+from recommendation_model_server.model import ModelInstance
 
 
 def test_model_prediction_routine() -> None:
