@@ -20,7 +20,7 @@ flowchart TD
 ---
 
 **Documentation**: [https://ra312.github.io/model-server](https://ra312.github.io/model-server)
-**Training Source Code**: [https://github.com/ra312/personalization](https://github.com/ra312/personalization)
+**Training Pipeline Source Code**: [https://github.com/ra312/personalization](https://github.com/ra312/personalization)
 **Source Code**: [https://github.com/ra312/model-server](https://github.com/ra312/model-server)
 **PyPI**: [https://pypi.org/project/model-server/](https://pypi.org/project/model-server/)
 
