@@ -1,57 +1,11 @@
-# model server
+# inference service
 ```mermaid
----
-title: REST-inference service
----
-classDiagram
-    note "100 requests per second"
-
-    class VenueRating{
-    """
-    Represents the predicted ranking of a venue.
-
-    Attributes:
-    -----------
-    venue_id : int The ID of the venue being rated.
-    q80_predicted_rank : float
-        The predicted ranking of the venue,
-        as a 80-quantile of predicted rating
-        for venue across available sessions
-    """
-    venue_id: int
-    q80_predicted_rank: float
-    }
-    class TrainingPipeline{
-      str pre-trained-model-file: stored with mlflow in gcs bucket
-    }
-
-    class InferenceFeatures{
-    venue_id: int
-    conversions_per_impression: float
-    price_range: int
-    rating: float
-    popularity: float
-    retention_rate: float
-    session_id_hashed: int
-    position_in_list: int
-    is_from_order_again: int
-    is_recommended: int
-    }
-    class FastAPIEndpoint{
-      def predict_ratings(): Callabe
-    }
-
-    class Model_Instance{
-        joblib.load(model_artifact_bucket)
-        str model_artifact_bucket - variable
-        str rank_column - fixed for the model
-        str group_column - fixed for the model
-    }
-    TrainingPipeline --|> Model_Instance
-    InferenceFeatures --|> FastAPIEndpoint
-    Model_Instance --|> FastAPIEndpoint
-    FastAPIEndpoint --|> VenueRating
-
+flowchart TD
+    A[ModelArtifact] -->B(Model Instance)
+    G[InferenceFeatures] -->  B 
+    B --> C[VenueRatings]
+    C -->D(Search List)
+    
 ```
 
 [![PyPI](https://img.shields.io/pypi/v/model-server?style=flat-square)](https://pypi.python.org/pypi/model-server/)
@@ -72,7 +26,7 @@ classDiagram
 
 ---
 
-A model server  for almost realtime inference
+A service to rate venues
 
 ## Installation
 
@@ -101,24 +55,9 @@ poetry shell
 ### Testing
 
 ```sh
-pytest
+pytest tests
 ```
 
-### Documentation
-
-The documentation is automatically generated from the content of the [docs directory](./docs) and from the docstrings
- of the public signatures of the source code. The documentation is updated and published as a [Github project page
- ](https://pages.github.com/) automatically as part each release.
-
-### Releasing
-
-Trigger the [Draft release workflow](https://github.com/ra312/model-server/actions/workflows/draft_release.yml)
-(press _Run workflow_). This will update the changelog & version and create a GitHub release which is in _Draft_ state.
-
-Find the draft release from the
-[GitHub releases](https://github.com/ra312/model-server/releases) and publish it. When
- a release is published, it'll trigger [release](https://github.com/ra312/model-server/blob/master/.github/workflows/release.yml) workflow which creates PyPI
- release and deploys updated documentation.
 
 ### Pre-commit
 
