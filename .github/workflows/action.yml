@@ -6,11 +6,15 @@ on:
       - main
       - "model_server/**"
       - "tests/**"
+      - "README.md"
+      - "pyproject.toml"
   pull_request:
     branches:
       - main
       - "model_server/**"
       - "tests/**"
+      - "README.md"
+      - "pyproject.toml"
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
