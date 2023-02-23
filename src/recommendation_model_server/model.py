@@ -1,3 +1,30 @@
+"""
+This class encapsulates a machine learning model
+and provides methods for generating predicted ratings for new data.
+
+Attributes:
+    model (Any): The machine learning model, loaded from a serialized artifact.
+    group_column (str): The name of the column
+    in the input data that represents the grouping variable.
+    rank_column (str): The name of the column
+    in the input data that represents the rank variable.
+
+Methods:
+    generate_model_ratings(
+        inference_dataframe: pl.DataFrame) -> List[Dict[str, Any]]:
+        Generates predicted ratings for new data,
+        given as a DataFrame with the same column names as the training data.
+
+Usage:
+    from model_instance import ModelInstance
+
+    # Create a ModelInstance object with a serialized model artifact
+    model = ModelInstance("path/to/model/artifact",
+                          "group_column", "rank_column")
+
+    # Generate predicted ratings for new data
+    ratings = model.generate_model_ratings(inference_dataframe)
+"""
 from typing import Any, Dict, List
 
 import joblib
@@ -6,7 +33,19 @@ import polars as pl
 
 class ModelInstance:
     def __init__(self, model_artifact_bucket: str, group_column: str, rank_column: str):
-        # TODO: add reading from gcs
+        """Initialize a ModelInstance object.
+
+        Args:
+            model_artifact_bucket (str): The path to the serialized model artifact.
+            group_column (str): The name of the column containing the group identifier.
+            rank_column (str): The name of the column containing the rank information.
+
+        Raises:
+            None.
+
+        Returns:
+            None.
+        """
         # EXPLAIN: for demo, we read locally
 
         self.model: Any = joblib.load(model_artifact_bucket)
@@ -14,14 +53,16 @@ class ModelInstance:
         self.rank_column = rank_column
 
     def generate_model_ratings(self, inference_dataframe: pl.DataFrame) -> List[Dict[str, Any]]:
-        # inference_dataframe = pl.DataFrame(
-        #     json.loads(incoming_inference_features_str))
-        # hashed_session_column = f"{self.group_column}_hashed"
-        # if 'session_id' not in inference_dataframe.columns:
-        #     raise RuntimeWarning(
-        #         "'session_id' column not found in incoming request")
-        if "session_id_hashed" not in inference_dataframe.columns:
+        """Generate predicted model ratings for a given inference DataFrame.
 
+        Args:
+            inference_dataframe (pl.DataFrame): The input DataFrame for which to generate ratings.
+
+        Returns:
+            List[Dict[str, Any]]: A list of dictionaries,
+            each containing the venue ID and the predicted rating.
+        """
+        if "session_id_hashed" not in inference_dataframe.columns:
             inference_dataframe = inference_dataframe.with_columns(
                 pl.col("session_id").str.replace("-", "").alias("session_id_hashed").hash(seed=0)
             )
@@ -36,7 +77,11 @@ class ModelInstance:
         assert all(
             expected_column == actual_column
             for expected_column, actual_column in zip(incoming_features, expected_features)
-        ), "the inference feature do not have the same order as the training features, this can lead to poorer performance"
+        ), (
+            "the inference feature do not have the same order"
+            " as the training features, this can lead to poorer performance"
+        )
+
         inference_dataframe_pd = inference_dataframe.sort(
             by=[group_column, rank_column], reverse=False
         ).to_pandas()
