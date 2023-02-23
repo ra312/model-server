@@ -12,7 +12,7 @@ flowchart TD
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/model-server?style=flat-square)](https://pypi.org/project/recommendation-model-server/)
 [![PyPI - License](https://img.shields.io/pypi/l/model-server?style=flat-square)](https://pypi.org/project/recommendation-model-server/)
 [![Coookiecutter - Wolt](https://img.shields.io/badge/cookiecutter-Wolt-00c2e8?style=flat-square&logo=cookiecutter&logoColor=D4AA00&link=https://github.com/woltapp/wolt-python-package-cookiecutter)](https://github.com/woltapp/wolt-python-package-cookiecutter)
-
+[![codecov](https://codecov.io/gh/ra312/personalization/branch/main/graph/badge.svg?token=2K6174OLAI)](https://codecov.io/gh/ra312/personalization)
 
 ---
 
