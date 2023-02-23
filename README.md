@@ -2,10 +2,10 @@
 ```mermaid
 flowchart TD
     A[ModelArtifact] -->B(Model Instance)
-    G[InferenceFeatures] -->  B 
+    G[InferenceFeatures] -->  B
     B --> C[VenueRatings]
     C -->D(Search List)
-    
+
 ```
 
 [![PyPI](https://img.shields.io/pypi/v/model-server?style=flat-square)](https://pypi.python.org/pypi/model-server/)
@@ -31,9 +31,43 @@ A service to rate venues
 ## Installation
 
 ```sh
-pip install recommendation-model-server
+python3 -m pip install recommendation-model-server
 ```
 
+## Running locally on host
+If you choose to use pre-trained model in artifacts/rate_venues.pickle
+```sh
+python3 -m recommendation_model_server \
+--host 0.0.0.0 \
+--port 8000 \
+--recommendation-model-path artifacts/rate_venues.pickle
+```
+In separate tab, please run
+```sh
+curl -X 'POST' \
+'http://0.0.0.0:8000/predict' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '[
+  {
+    "venue_id": -4202398962129790000,
+    "conversions_per_impression": 0.3556765815,
+    "price_range": 1,
+    "rating": 8.6,
+    "popularity": 4.4884057024,
+    "retention_rate": 8.6,
+    "session_id_hashed": 3352618370338455600,
+    "position_in_list": 31,
+    "is_from_order_again": 0,
+    "is_recommended": 0
+  }
+]'
+```
+## Running in container
+```sh
+docker pull akylzhanov/my-fastapi-app
+docker run -d --name my-fastapi-container -p 8000:8000 --rm akylzhanov/my-fastapi-app
+```
 ## Development
 
 * Clone this repository
