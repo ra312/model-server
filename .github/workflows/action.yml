@@ -6,11 +6,15 @@ on:
       - main
       - "model_server/**"
       - "tests/**"
+      - "README.md"
+      - "pyproject.toml"
   pull_request:
     branches:
       - main
       - "model_server/**"
       - "tests/**"
+      - "README.md"
+      - "pyproject.toml"
 env:
   PYTHON_VERSION: ${{ secrets.PYTHON_VERSION }}
   POETRY_VERSION: ${{ secrets.POETRY_VERSION }}
@@ -47,6 +51,11 @@ jobs:
           else
               echo "Coverage is $total_coverage%"
           fi
+      - name: Upload coverage to codecov.io
+        run: bash <(curl -s https://codecov.io/bash)
+        if: always()
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish to PyPI
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
