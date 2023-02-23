@@ -13,7 +13,6 @@ RUN apt-get update && \
 # Expose port 8000 to the outside world
 EXPOSE 8000
 
-
 ENTRYPOINT [ "python3", "-m", \
     "recommendation_model_server", "--host", "0.0.0.0", "--port", "8000", \
     "--recommendation-model-path", "/app/rate_venues.pickle"]
