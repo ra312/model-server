@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build -t my-fastapi-app .
+        run: docker buildx build --platform=linux/amd64,linux/arm64,linux/arm/v7 -t my-fastapi-app .
 
       - name: Test Docker image
         run: scripts/test_docker_image.sh
