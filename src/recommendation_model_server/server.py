@@ -15,8 +15,3 @@ class InferenceServer:
     def predict(self) -> Dict[str, str]:
 
         return {"relevance_scores": self.name}
-
-
-# if __name__ == "__main__":
-#     server = InferenceServer(name="recommend-venues")
-#     uvicorn.run(server.app, host="localhost", port=8000)

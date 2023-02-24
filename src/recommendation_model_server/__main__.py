@@ -57,8 +57,6 @@ def entrypoint(parsed_args: argparse.Namespace) -> FastAPI:
 
     # Run the model endpoint with the specified arguments
     return model_endpoint(
-        host=parsed_args.host,
-        port=parsed_args.port,
         recommendation_model_path=parsed_args.recommendation_model_path,
     )
 
