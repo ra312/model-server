@@ -8,7 +8,14 @@
 	},
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/poetry:2": {}
-	}
+	},
+        "remoteEnv": {
+         "GITHUB_TOKEN": "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"
+        },
+        // Use the GitHub token at runtime for authentication
+        "postCreateCommand": "git config --global credential.helper 'store --file ~/.git-credentials' && echo \"https://github.com:$GITHUB_TOKEN@github.com\" >> ~/.git-credentials",
+
+
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
