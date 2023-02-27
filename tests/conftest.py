@@ -1,33 +1,37 @@
+import logging.config
+from typing import Any
+
 import pytest
 from fastapi import FastAPI
 
 from recommendation_model_server.inference_server import model_endpoint
 
-# @pytest.fixture(scope="session", autouse=True)
-# def setup_logging() -> Callable:
-#     return logging.config.dictConfig(
-#         {
-#             "version": 1,
-#             "disable_existing_loggers": False,
-#             "handlers": {
-#                 "console": {
-#                     "class": "logging.StreamHandler",
-#                     "level": "INFO",
-#                     "formatter": "basic",
-#                 },
-#             },
-#             "formatters": {
-#                 "basic": {
-#                     "format": "%(asctime)s [%(levelname)s] %(message)s",
-#                     "datefmt": "%Y-%m-%d %H:%M:%S",
-#                 },
-#             },
-#             "root": {
-#                 "handlers": ["console"],
-#                 "level": "DEBUG",
-#             },
-#         }
-#     )
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_logging() -> Any:
+    return logging.config.dictConfig(
+        {
+            "version": 1,
+            "disable_existing_loggers": False,
+            "handlers": {
+                "console": {
+                    "class": "logging.StreamHandler",
+                    "level": "INFO",
+                    "formatter": "basic",
+                },
+            },
+            "formatters": {
+                "basic": {
+                    "format": "%(asctime)s [%(levelname)s] %(message)s",
+                    "datefmt": "%Y-%m-%d %H:%M:%S",
+                },
+            },
+            "root": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+            },
+        }
+    )
 
 
 @pytest.fixture(scope="module")
