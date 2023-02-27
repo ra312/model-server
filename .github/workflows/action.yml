@@ -42,7 +42,7 @@ jobs:
           poetry install --no-root
           poetry install
           poetry run pre-commit run --all-files --color always || true
-          poetry run coverage run --omit 'tests/*' -m pytest
+          poetry run coverage run --omit 'tests/*' -m pytest -s -vv
           poetry run coverage report -m > coverage.txt
           total_coverage=$(tail -n 1 coverage.txt  | awk '{print $NF}' | sed 's/%//')
           if ((total_coverage < 70)); then
