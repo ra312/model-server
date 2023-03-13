@@ -113,4 +113,25 @@ pre-commit run --all-files
 
 ---
 
+### How to run load tests
+1. Start service locally,
+```sh
+python3 -m recommendation_model_server \
+--host 0.0.0.0 \
+--port 8000 \
+--recommendation-model-path artifacts/rate_venues.pickle
+```
+ 2. Run load test with locust 1million users with spawn rate 100 users per second, i.e.
+ ```sh
+ poetry shell && pytest tests/test_invokust_load.py -s
+ ```
+ The output is similar to (the time is in milliseconds)
+ ```sh
+ Ramping to 1000000 users at a rate of 100.00 per second
+Type     Name  # reqs      # fails |    Avg     Min     Max    Med |   req/s  failures/s
+--------||-------|-------------|-------|-------|-------|-------|--------|-----------
+POST     /predict    1453     0(0.00%) |    448       5    1948    390 |  167.83        0.00
+--------||-------|-------------|-------|-------|-------|-------|--------|-----------
+         Aggregated    1453     0(0.00%) |    448       5    1948    390 |  167.83        0.00
+  ```
 This project was generated using the [wolt-python-package-cookiecutter](https://github.com/woltapp/wolt-python-package-cookiecutter) template.
