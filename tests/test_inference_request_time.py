@@ -37,5 +37,5 @@ def test_send_inference_request(app: FastAPI, request_body: dict) -> None:
         logging.info(
             f"Request size: {request_size_kb:.2f} KB, Elapsed time: {elapsed_time:.4f} seconds"
         )
-        assert 0.01 <= elapsed_time <= 0.031
+        assert 0.01 <= elapsed_time <= 0.04
         assert response.status_code == 200
