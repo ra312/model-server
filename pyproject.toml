@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = "3.10.10"
 pre-commit = "^3.0.4"
 autoflake = "^2.0.1"
 polars = "^0.16.6"
