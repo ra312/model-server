@@ -41,7 +41,7 @@ jobs:
         run: |
           poetry install --no-root
           poetry install
-          poetry run pre-commit run --all-files --color always || true
+          poetry run pre-commit run --all-files --color always
           poetry run coverage run --omit 'tests/*' -m pytest
           poetry run coverage report -m > coverage.txt
           total_coverage=$(tail -n 1 coverage.txt  | awk '{print $NF}' | sed 's/%//')

@@ -83,7 +83,7 @@ class ModelInstance:
         )
 
         inference_dataframe_pd = inference_dataframe.sort(
-            by=[group_column, rank_column], reverse=False
+            by=[group_column, rank_column], descending=True
         ).to_pandas()
         inference_dataframe_pd[pred_label] = self.model.predict(inference_dataframe_pd)
         inference_dataframe_pd[predicted_rank_column] = inference_dataframe_pd.groupby(
