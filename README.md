@@ -1,11 +1,16 @@
 # inference service
+We send request to Wolt restaurant api to get local restaurant venue_ids.
+For these ids, we create inference features and produce venue_id rating
 ```mermaid
 flowchart TD
     A[ModelArtifact] -->B(Model Instance)
-    G[InferenceFeatures] -->  B
-    B --> C[VenueRatings]
+    E[Restaurants:ES_Index] -->G
+    F[Sessions:ES_Index] -->G
+    G[InferenceFeatures: ES_Index] -->B
+    G --> H
+    B -->C[VenueRatings] --> H
+    H[ElasticIndex] --> B
     C -->D(Search List)
-
 ```
 
 [![PyPI](https://img.shields.io/pypi/v/recommendation-model-server?style=flat-square)](https://pypi.org/project/recommendation-model-server/)
