@@ -1,6 +1,14 @@
 # inference service
+We shall spawn a dockerized ES index and 
+
+create three ES indices: sessions, venues and ratings.
+
+If for incoming venue_id, rating has been computed, we respond with the resutls from elasticsearch rating index.
+
 We send request to Wolt restaurant api to get local restaurant venue_ids.
+
 For these ids, we create inference features and produce venue_id rating
+
 ```mermaid
 flowchart TD
     A[ModelArtifact] -->B(Model Instance)
