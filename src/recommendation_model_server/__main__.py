@@ -16,6 +16,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from .inference_server import model_endpoint
+from .utils import declare_env_variables
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -41,7 +42,6 @@ def parse_arguments() -> argparse.Namespace:
         required=True,
         help="the S3 bucket path for the trained model",
     )
-
     # Parse arguments
     return parser.parse_args()
 
@@ -63,5 +63,6 @@ def entrypoint(parsed_args: argparse.Namespace) -> FastAPI:
 
 if __name__ == "__main__":
     parsed_arguments = parse_arguments()
+    declare_env_variables(parsed_arguments)
     app = entrypoint(parsed_arguments)
     uvicorn.run(app, host=parsed_arguments.host, port=parsed_arguments.port)
