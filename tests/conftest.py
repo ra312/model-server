@@ -4,7 +4,7 @@ from typing import Any
 import pytest
 from fastapi import FastAPI
 
-from recommendation_model_server.inference_server import model_endpoint
+from recommendation_model_server.recommendation_api import create_recommendation_api
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -36,7 +36,7 @@ def setup_logging() -> Any:
 
 @pytest.fixture(scope="module")
 def app() -> FastAPI:
-    return model_endpoint("artifacts/rate_venues.pickle")
+    return create_recommendation_api("artifacts/rate_venues.pickle")
 
 
 @pytest.fixture(scope="module")
