@@ -1,3 +1,5 @@
+import argparse
+import os
 import re
 from typing import List
 
@@ -7,6 +9,17 @@ def parse_response(data: dict) -> List[dict]:
         {"image_url": item["image"]["url"], "venue_id": parse_track_id(item["image"]["url"])}
         for item in data["sections"][0]["items"]
     ]
+
+
+def declare_env_variables(parsed_args: argparse.Namespace) -> None:
+    os.environ["RECOMMENDATION_MODEL_PATH"] = parsed_args.recommendation_model_path
+
+
+def get_recommendation_model_path() -> str:
+    recommendation_model_path = os.environ.get("RECOMMENDATION_MODEL_PATH")
+    if recommendation_model_path is None:
+        raise ValueError("RECOMMENDATION_MODEL_PATH environment variable not set")
+    return recommendation_model_path
 
 
 def parse_track_id(track_id_str: str) -> str:
