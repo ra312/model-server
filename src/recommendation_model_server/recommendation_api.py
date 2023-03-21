@@ -2,6 +2,8 @@ import os
 
 from fastapi import FastAPI
 
+from .endpoints.autocomplete import router as autocomplete
+from .endpoints.index import router as index
 from .endpoints.predict import router as predict
 from .endpoints.search import router as search
 
@@ -41,6 +43,8 @@ def create_recommendation_api(recommendation_model_path: str) -> FastAPI:
     app: FastAPI = FastAPI()
 
     os.environ["RECOMMENDATION_MODEL_PATH"] = recommendation_model_path
+    app.include_router(index)
+    app.include_router(autocomplete, tags=["autocomplete"])
     app.include_router(predict, tags=["predict"])
     app.include_router(search, tags=["search"])
 
