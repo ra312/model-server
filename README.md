@@ -2,9 +2,13 @@
 ```mermaid
 flowchart TD
     A[ModelArtifact] -->B(Model Instance)
-    G[InferenceFeatures] -->  B
-    B --> C[VenueRatings]
-    C -->D(Search List)
+    E[Restaurants_Index:Elastic] -->B
+    F[Restaurant API] -->B
+    %% G[InferenceFeatures: ES_Index] -->B
+    %% G --> H
+    B -->C[VenueRatings] --> H(Elastic)
+    %% H[ElasticIndex] --> B
+    C -- 100 rps with 2s response single cpu-->D(Search List)
 
 ```
 
@@ -30,12 +34,9 @@ python3 -m pip install recommendation-model-server
 ```
 
 ## Running locally on host
-If you choose to use pre-trained model in artifacts/rate_venues.pickle
+If you choose to use pre-trained model in artifacts/rate_venues.pickle to start on 0.0.0.0:8000
 ```sh
-python3 -m recommendation_model_server \
---host 0.0.0.0 \
---port 8000 \
---recommendation-model-path artifacts/rate_venues.pickle
+/scripts/start_inference_service.sh
 ```
 In separate tab, please run
 ```sh
@@ -60,15 +61,27 @@ curl -X 'POST' \
 ```
 ## Running in container
 ```sh
-docker pull akylzhanov/my-fastapi-app
-docker run -d --name my-fastapi-container -p 8000:8000 --rm akylzhanov/my-fastapi-app
+docker pull akylzhanov/search-api
+docker run -d --name search-api-container -p 8000:8000 --rm akylzhanov/search-api
 ```
+# Start search UI
+## Start elasticindex locally
+```sh
+./scripts/run_elastic_locally.sh
+```
+## Create restaurant index querying local restaurants for lat=52.5024674, lon = 13.2810506 at Café Am Neuen See, Tiergarten, Mitte
+```sh
+poetry run python3 src/recommendation_model_server/indexer.py
+```
+## Head to search UI at localhost:8000
+![alt text](search_ui.png)
+
 ## Development
 
 * Clone this repository
 * Requirements:
   * [Poetry](https://python-poetry.org/)
-  * Python 3.8.1+
+  * Python 3.10.10
 * Create a virtual environment and install the dependencies
 
 ```sh
@@ -114,12 +127,9 @@ pre-commit run --all-files
 ---
 
 ### How to run load tests
-1. Start service locally,
+1. Start service locally, host=0.0.0.0, port=8000
 ```sh
-python3 -m recommendation_model_server \
---host 0.0.0.0 \
---port 8000 \
---recommendation-model-path artifacts/rate_venues.pickle
+/scripts/start_inference_service.sh
 ```
  2. Run load test with locust 1million users with spawn rate 100 users per second, i.e.
  ```sh
