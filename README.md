@@ -59,6 +59,17 @@ curl -X 'POST' \
   }
 ]'
 ```
+## Build MLflow image
+```sh
+mlflow-arm64/build_mlflow_image.sh
+```
+## Run MLflow registry locally
+```sh
+./scripts/run_mlflow_registry.sh
+```
+
+# Start search UI
+
 ## Running in container
 ```sh
 docker pull akylzhanov/search-api
