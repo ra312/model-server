@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "recommendation-model-server"
-version = "0.1.0"
+version = "0.1.1"
 description = "A real-time inference server"
 authors = ["Rauan Akylzhanov <akylzhanov.r@gmail.com>"]
 license = "MIT"
