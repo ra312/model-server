@@ -144,4 +144,15 @@ POST     /predict    1453     0(0.00%) |    448       5    1948    390 |  167.83
 --------||-------|-------------|-------|-------|-------|-------|--------|-----------
          Aggregated    1453     0(0.00%) |    448       5    1948    390 |  167.83        0.00
   ```
+
+> Is this production-ready?
+
+No 😅
+It's missing:
+- defensive programming against network calls
+- logging/tracing
+- start using predict endpoint to re-reank respone of  search endpoint
+- we did load testing with locust, but still  need to increase coverage (e2e tests, stress tests, unit tests)
+
+
 This project was generated using the [wolt-python-package-cookiecutter](https://github.com/woltapp/wolt-python-package-cookiecutter) template.
