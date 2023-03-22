@@ -76,6 +76,11 @@ poetry run python3 src/recommendation_model_server/indexer.py
 ## Head to search UI at localhost:8000
 ![alt text](search_ui.png)
 
+## Start redis locally
+```sh
+./scripts/run_redis_cache.sh
+```
+
 ## Development
 
 * Clone this repository
