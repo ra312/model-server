@@ -1,5 +1,5 @@
 # Use the official Python image as the base image
-FROM python:3.9-slim-buster
+FROM python:3.10.10-slim-buster
 
 # Set the working directory to /app
 WORKDIR /app
@@ -13,8 +13,11 @@ RUN apt-get update && \
 # Expose port 8000 to the outside world
 EXPOSE 8000
 
-# Start the FastAPI application using Uvicorn server
+# Set default values for HOST and PORT build arguments
+ARG HOST=0.0.0.0
+ARG PORT=8000
 
+# Start the FastAPI application using Uvicorn server
 ENTRYPOINT [ "python3", "-m", \
-    "recommendation_model_server", "--host", "0.0.0.0", "--port", "8000", \
+    "recommendation_model_server", "--host", "${HOST}", "--port", "${PORT}", \
     "--recommendation-model-path", "/app/rate_venues.pickle"]

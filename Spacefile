@@ -1,0 +1,5 @@
+v: 0
+micros:
+  - name: python-app
+    src: app.py
+    engine: python3.9

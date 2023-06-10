@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build -t my-fastapi-app .
+        run: docker build -t search-api .
 
       - name: Test Docker image
         run: scripts/test_docker_image.sh
@@ -28,5 +28,5 @@ jobs:
           DOCKER_USER_PASSWORD: ${{ secrets.DOCKER_USER_PASSWORD }}
         run: |
           docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
-          docker tag my-fastapi-app $DOCKER_USER_NAME/my-fastapi-app
-          docker push $DOCKER_USER_NAME/my-fastapi-app
+          docker tag search-api $DOCKER_USER_NAME/search-api
+          docker push $DOCKER_USER_NAME/search-api
